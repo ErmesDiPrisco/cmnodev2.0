@@ -9,16 +9,17 @@ app.use(express.urlencoded({ extended: true }))
 const porta = 3000;
 
 app.use(session({
-    secret: 'supersegreto',
+    secret: 'secret',
     resave: false,
     saveUninitialized: true
   }));
-  
+
   const checkAuth = (req, res, next) => {
-    if (!req.session.userId) {
+    if (!req.session.userId || req.session.userId== undefined) {
       res.redirect('/login');
     } else {
       next();
+      
     }
   };
 const connectionDb = mysql.createConnection({
@@ -42,6 +43,7 @@ app.listen(porta, () => {
 });
 
 app.get("/login", (req, res) => {
+    req.session.userId = undefined;
     res.sendFile(__dirname + "/index.html")
 })
 
@@ -75,15 +77,17 @@ app.post("/login", (req, res) => {
             }else{
                 console.log(checks(result))
                 if (checks(result)==true){
+                    console.log(req.session.userId)
                     req.session.userId = 1;
                     res.redirect('/home')
                 }else{
                     console.log('campi errati')
                     res.send('<h1>Hai sbagliato tutto</h1></br>\
-                                <button ><a href="/login">Login</a></button>')
+                    <button ><a href="/login">Login</a></button>')
                 }
-
+                
             }
+            
                 
                     
                     
@@ -106,5 +110,5 @@ app.post("/login", (req, res) => {
 })
 
 app.get('/home', checkAuth, (req, res) => {
-    res.send('Home');
+    res.redirect('http://localhost:4200/')
   });
