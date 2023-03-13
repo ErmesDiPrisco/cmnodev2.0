@@ -2,7 +2,25 @@ const express = require("express")
 const mysql = require("mysql")
 const session= require("express-session")
 const app = express()
+const flash = require('connect-flash');
+var insertMail=''
+var insertPassword=''
+var dbData=[]
 
+
+let checks=(args)=>{
+
+    for(let i in args){
+
+        if (args[i].email === insertMail && args[i].password === insertPassword){
+
+            return true
+
+        }
+    }
+}
+
+app.use(flash());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
 
@@ -55,17 +73,8 @@ app.post("/login", (req, res) => {
 
     var emaill = req.body.email
     var passwordd = req.body.password
-    let checks=(args)=>{
-
-        for(let i in args){
-
-            if (args[i].email === emaill && args[i].password === passwordd){
-
-                return true
-
-            }
-        }
-    }
+    insertMail=emaill
+    insertPassword=passwordd
 
     connectionDb.query(
 
@@ -79,7 +88,8 @@ app.post("/login", (req, res) => {
                 return console.log(err);
 
             }else{
-                console.log(checks(result))
+                dbData=result
+                // console.log(checks(dbData))
 
                 if (checks(result)==true){
 
@@ -89,15 +99,14 @@ app.post("/login", (req, res) => {
 
                 }else{
 
-                    // format.classList.add('error');
-                    console.log('campi errati')
+                    console.log('Credenziali Sbagliate');
+                    res.send("<script>alert('Credenziali Errate');window.location.replace('http://localhost:3000/login')</script>")
+                    app.get("/login", (req, res) => {
+                        req.session.userId = undefined;
+                        res.sendFile(__dirname + "/index.html")
+                    })
+                    
 
-                    res.send('\
-                        <div style = "text-align: center">\
-                            <h1 style = "font-weight: 200px"> Credenziali Errate </h1>\
-                            </br>\
-                            <button style = "background-color: black; padding: 10px; font-size: 16px; font-weight: bold; border-radius: 15px; cursor: pointer;"><a style = "text-decoration: none; color: white;" href="/login">Login</a></button>\
-                        </div>')
 
                 }
                 
@@ -125,8 +134,7 @@ app.post("/login", (req, res) => {
 
 })
 
+
 app.get('/home', checkAuth, (req, res) => {
     res.redirect('http://localhost:4200/')
   });
-
-
