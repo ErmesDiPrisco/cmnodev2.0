@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // const errMsg = document.getElementById("err_msg");
 
-const porta = 3000;
+const porta = process.env.PORT || 3000
 
 
 app.use(session({
@@ -100,7 +100,7 @@ app.post("/login", (req, res) => {
                 }else{
 
                     console.log('Credenziali Sbagliate');
-                    res.send("<script>alert('Credenziali Errate');window.location.replace('http://localhost:3000/login')</script>")
+                    res.send("<script>alert('Credenziali Errate');window.location.replace('/login')</script>")
                     app.get("/login", (req, res) => {
                         req.session.userId = undefined;
                         res.sendFile(__dirname + "/index.html")
