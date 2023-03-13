@@ -136,5 +136,5 @@ app.post("/login", (req, res) => {
 
 
 app.get('/home', checkAuth, (req, res) => {
-    res.redirect('http://localhost:4200/')
+    res.redirect("/")
   });
