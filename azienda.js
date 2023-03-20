@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const connectionDb = require("./db");
+const server= require('./server')
+const router = express.Router();
 var Azienda = require('./models/aziendaModel')
 var id = 'ciao'
 
@@ -15,8 +17,7 @@ var id = 'ciao'
 //         }
 //     }
 // });
-
-const getCompanyById = app.get("/azienda", (req, res) => {
+router.get(`/azienda/:id`, (req, res) => {
      connectionDb.query(`SELECT * FROM azienda WHERE id_azienda = '${id}' `,(err, res) => {
             if(err) {
                return console.log(err);
@@ -27,3 +28,4 @@ const getCompanyById = app.get("/azienda", (req, res) => {
             }
         })});
 
+module.exports= router

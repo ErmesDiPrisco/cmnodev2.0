@@ -5,7 +5,7 @@ const flash = require('connect-flash');
 const connectionDb = require('./db');
 var insertMail = '';
 var insertPassword = '';
-var dbData = [];
+var id = 'ciao';
 
 let checks=(args)=>{
     for(let i in args){
@@ -89,4 +89,13 @@ app.get('/home', checkAuth, (req, res) => {
     res.redirect("http://localhost:4200");
 })
 
-
+const getCompanyById = app.get("/azienda", (req, res) => {
+    connectionDb.query(`SELECT * FROM azienda WHERE id_azienda = '${id}' `,(err, res) => {
+           if(err) {
+              return console.log(err);
+         } else {
+               
+               console.log(res)
+               
+           }
+       })});
