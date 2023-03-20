@@ -1,5 +1,4 @@
 {
-  "scripts": {"start": "node app.js"},
   "dependencies": {
     "alert-node": "^5.0.3",
     "connect-flash": "^0.1.1",
@@ -10,5 +9,4 @@
     "nodemon": "^2.0.21",
     "popups": "^1.1.3"
   }
-  
 }
