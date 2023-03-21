@@ -3,7 +3,9 @@ const app = express();
 const router = express.Router();
 const connectionDb = require("./db");
 const server = require("./server");
-// var Azienda = require("./models/aziendaModel");
+var Azienda = require("./models/aziendaModel");
+
+
 
 
 router.get("/", (req, res) => {
@@ -13,23 +15,10 @@ router.get("/", (req, res) => {
     } else {
       const aziende = rows;
       res.send(aziende);
-      console.log(aziende);
     }
   });
 });
 
-
-// router.get(`/azienda/:id`, (req, res) => {
-//   connectionDb.query(`SELECT * FROM azienda WHERE id_azienda = '${id}' `, (err, res) => {
-//     if (err) {
-//       return console.log(err);
-//     } else {
-
-//       console.log(res)
-
-//     }
-//   })
-// });
 
 router.get(`/azienda/:id`, (req, res) => {
   var id = req.params.id;
@@ -38,10 +27,31 @@ router.get(`/azienda/:id`, (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-  
+
       } else {
         console.log(result);
         res.send(result[0])
+
+
+      }
+    }
+  );
+});
+
+
+
+
+router.post("/azienda/addAzienda", (req, res) => {
+  connectionDb.query(
+    `INSERT INTO azienda (id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) \
+    VALUE ('${id_azienda}','${nome}','${p_iva}','${indirizzo}','${cap}','${iban}','${telefono}','${email}','${pec}','${fax}')`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        res.send(result);
+
       }
     }
   );
