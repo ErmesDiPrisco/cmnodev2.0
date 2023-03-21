@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
+const router = express.Router();
 const connectionDb = require("./db");
 const server = require("./server");
-const router = express.Router();
 // var Azienda = require("./models/aziendaModel");
 
 
@@ -41,7 +41,7 @@ router.get(`/azienda/:id`, (req, res) => {
   
       } else {
         console.log(result);
-        res.send(result)
+        res.send(result[0])
       }
     }
   );
