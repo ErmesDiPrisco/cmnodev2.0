@@ -13,7 +13,6 @@ router.get("/", (req, res) => {
     } else {
       const aziende = rows;
       res.send(aziende);
-      console.log(aziende);
     }
   });
 });
@@ -38,10 +37,10 @@ router.get(`/azienda/:id`, (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-  
+
       } else {
         console.log(result);
-        res.send(result)
+        res.send(result[0])
       }
     }
   );
