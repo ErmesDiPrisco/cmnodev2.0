@@ -44,21 +44,59 @@ router.get(`/azienda/:id`, (req, res) => {
 
 router.post("/azienda/addAzienda", (req, res) => {
   var dati= req.body
-  console.log(dati.nome)
-  // connectionDb.query(
-  //   `INSERT INTO azienda (id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) \
-  //   VALUE ('${id_azienda}','${nome}','${p_iva}','${indirizzo}','${cap}','${iban}','${telefono}','${email}','${pec}','${fax}')`,
-  //   (err, result) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(result);
-  //       res.send(result);
+  console.log(dati.id_azienda)
+  connectionDb.query(
+    `INSERT INTO azienda (id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) \
+    VALUE ('${dati.id_azienda}','${dati.nome}','${dati.p_iva}','${dati.indirizzo}','${dati.cap}','${dati.iban}','${dati.telefono}','${dati.email}','${dati.pec}','${dati.fax}')`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        res.send(result);
 
-  //     }
-  //   }
-  // );
+      }
+    }
+  );
 });
+
+router.delete("/aziendaDelete/:id", (req, res) => {
+  var id = req.params.id;
+  connectionDb.query(
+    `DELETE from azienda where id_azienda= '${id}'`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        res.send(result);
+
+      }
+    }
+  );
+});
+
+router.put("/aziendaUpdate", (req, res) => {
+  var dati= req.body
+  console.log(dati.id_azienda)
+  connectionDb.query(
+    `UPDATE azienda\
+    SET nome='${dati.nome}', p_iva= '${dati.p_iva}', indirizzo= '${dati.indirizzo}', cap='${dati.cap}', iban='${dati.iban}', \
+    telefono='${dati.telefono}', email='${dati.email}', pec='${dati.pec}', fax='${dati.fax}'\
+    WHERE id_azienda='${dati.id_azienda}'`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        res.send(result);
+
+      }
+    }
+  );
+});
+
+
 
 
 module.exports = router;
