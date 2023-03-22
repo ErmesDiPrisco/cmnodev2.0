@@ -37,4 +37,24 @@ router.get("/cliente", (req, res) => {
     );
   });
 
+  router.get(`/clienteAzienda/:id`, (req, res) => {
+    var id = req.params.id;
+    connectionDb.query(
+      `SELECT c.id_cliente, c.nome, c.p_iva, c.indirizzo, c.cap, c.iban, c.telefono, c.email, c.telefono, c.pec, c.fax \
+      FROM cliente c \
+      INNER JOIN azienda_cliente c_a ON c.id_cliente = c_a.id_cliente \
+      INNER JOIN azienda a ON c_a.id_azienda = a.id_azienda \
+      WHERE a.id_azienda ='${id}' `,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+    
+        } else {
+          console.log(result);
+          res.send(result)
+        }
+      }
+    );
+  });
+
   module.exports = router;
