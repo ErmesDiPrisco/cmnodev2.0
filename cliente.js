@@ -3,8 +3,10 @@ const app = express();
 const router = express.Router();
 const connectionDb = require("./db");
 const server = require("./server");
+const bodyParser = require('body-parser');
 
-
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 router.get("/cliente", (req, res) => {
     connectionDb.query("SELECT * FROM cliente", (err, rows) => {
